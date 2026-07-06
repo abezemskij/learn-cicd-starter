@@ -20,3 +20,14 @@ jobs:
 
       - name: Build Prod Script
         run: ./scripts/buildprod.sh
+
+      - name: Authenticate with GCP
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+
+      - name: Set up gcloud CLI
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Build and push Docker image
+        run: gcloud builds submit --tag us-central1-docker.pkg.dev/project-5176a17d-0fcf-4836-bb5/notely-ar-repo/notely:latest .
